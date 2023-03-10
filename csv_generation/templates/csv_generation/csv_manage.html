@@ -30,6 +30,11 @@
     <h1>Data sets</h1>
 
     <div style="position: relative; width: 60%; margin-bottom: 20px;">
+        <form method="post" style="position: absolute; bottom: 110%; right: 0;" id="number_form">
+            {% csrf_token %}
+            {{ number_form }}
+            <input type="submit" value="Generate data" class="btn btn-success" id="generation_button" style="margin-left: 10px;">
+        </form>
         <table class="generated_data table table-bordered">
             <thead>
                 <tr>
@@ -57,11 +62,6 @@
             </tbody>
         </table>
 
-        <form method="post" style="position: absolute; top: -7%; right: 0;" id="number_form">
-            {% csrf_token %}
-            {{ number_form }}
-            <input type="submit" value="Generate data" class="btn btn-success" id="generation_button" style="margin-left: 10px;">
-        </form>
     </div>
     </div>
 {% endblock %}
