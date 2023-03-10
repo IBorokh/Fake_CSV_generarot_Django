@@ -1,0 +1,73 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <div class="container ml-10" style="margin-top: 90px">
+    <h1 class="me-1">Sample schema</h1>
+    <div class="d-inline-block p-2 bg-light">
+        <a href="{% url 'datasets:schema_update' pk%}" class="link-primary" style="font-size: 20px">Edit schema</a>
+    </div>
+
+
+    <table id="data_table" class="table table-bordered" style="width: 60%; margin-bottom: 20px;">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th style="width: 40%;">Column name</th>
+                <th style="width: 40%;">Column type</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for column in columns %}
+                <tr>
+                    <td>{{ forloop.counter }}</td>
+                    <td>{{ column.column_name|title }}</td>
+                    <td>{{ column.data_type|title}}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <h1>Data sets</h1>
+
+    <div style="position: relative; width: 60%; margin-bottom: 20px;">
+        <table class="generated_data table table-bordered">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Created</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for data in generated_data %}
+                    <tr>
+                        <td>{{ forloop.counter }}</td>
+                        <td>{{ data.creation_date }}</td>
+                        <td>
+                            {% if data.csv_file %}
+                                <span class="status ready">Ready</span>
+                            {% else %}
+                                <span class="status processing">Processing...</span>
+                            {% endif %}
+                        </td>
+                        <td><a href="{% url 'csv:download' data.id %}">Download</a></td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <form method="post" style="position: absolute; top: -7%; right: 0;" id="number_form">
+            {% csrf_token %}
+            {{ number_form }}
+            <input type="submit" value="Generate data" class="btn btn-success" id="generation_button" style="margin-left: 10px;">
+        </form>
+    </div>
+    </div>
+{% endblock %}
+
+{% block javascript %}
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    {% load static %}
+    <script src="{% static 'js/data_generation.js' %}"></script>
+{% endblock %}

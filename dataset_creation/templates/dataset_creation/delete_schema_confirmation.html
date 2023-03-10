@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h2>Are you sure you want to delete <strong>{{ schema }}</strong> schema?</h2>
+    <form method="post">
+        {% csrf_token %}
+        <input type="submit" value="Yes, delete">
+        <input type="submit" onclick="window.location='{% url 'datasets:dashboard' %}' ; return false;" value="Cancel">
+    </form>
+{% endblock %}

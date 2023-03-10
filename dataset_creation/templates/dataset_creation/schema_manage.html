@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <div class="container" style="margin-top: 70px">
+    <div class="row">
+      <div class="col-12">
+        <h1 class="my-4">New schema</h1>
+        <button type="submit" class="btn btn-primary mb-4 float-end" id="submit_both_forms">Submit</button>
+
+        <form method="post" id="incredible_form" class="incredible_form">
+          {% csrf_token %}
+          {{ schema_form.as_p }}
+
+          <h2 class="mt-5">Schema columns</h2>
+          {% if column_formset %}
+            {% csrf_token %}
+            {{ column_formset.management_form }}
+
+            {% for column_form in column_formset %}
+              <div class="formset-container">
+                {{ column_form }}
+                <button class="delete_button">Delete</button>
+              </div>
+            {% endfor %}
+            <div id="empty_form" style="display:none">
+              {{ column_formset.empty_form }}
+            </div>
+          {% endif %}
+        </form>
+        <button id="add_form" class="btn btn-primary mb-4">Add column</button>
+      </div>
+    </div>
+  </div>
+{% endblock %}
+
+{% block javascript %}
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  {% load static %}
+  <script src="{% static 'js/delete_column.js' %}"></script>
+  <script src="{% static 'js/column_change.js' %}"></script>
+  <script src="{% static 'js/column_addition.js' %}"></script>
+  <script src="{% static 'js/submit_forms.js' %}"></script>
+{% endblock %}

@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    {% if form %}
+    <div class="d-flex justify-content-center align-items-center vh-100">
+        <form method="post" class="p-5 bg-light border rounded text-center">
+            <h1 class="h1 text-center">Login</h1>
+            {% csrf_token %}
+            {{ form.as_p }}
+            <input type="submit" class="btn btn-primary mt-3 mx-auto d-block" value="Sign in">
+        </form>
+    </div>
+    <div class="text-center mt-3">
+        <p>Don't have an account? <a href="{% url 'login:signup' %}">Sign up</a></p>
+    </div>
+    {% endif %}
+{% endblock %}
+
+

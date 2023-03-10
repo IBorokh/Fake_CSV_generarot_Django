@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <div class="d-flex justify-content-center align-items-center vh-100">
+        <div class="p-5 bg-light border rounded text-center">
+            <h1 class="h1">Data schemas</h1>
+            <a href="{% url 'dataset_creation:schema_create' %}" class="btn btn-primary mt-3">Create schema</a>
+            {% if schemas %}
+                <table class="table mt-3">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Title</th>
+                        <th>Modified</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for schema in schemas %}
+                        <tr>
+                            <td>{{ forloop.counter }}</td>
+                            <td><a href="{% url 'csv:manage' schema.id %}">{{ schema.title }}</a></td>
+                            <td>{{ schema.modified_at }}</td>
+                            <td>
+                                <a href="{% url 'dataset_creation:schema_update' schema.id %}" class="btn btn-sm btn-outline-primary">Update</a>
+                                <a href="{% url 'dataset_creation:schema_delete' schema.id %}" class="btn btn-sm btn-outline-danger">Delete</a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+                </table>
+            {% endif %}
+        </div>
+    </div>
+{% endblock %}
+
+{% block stylesheets %}
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/login.css' %}">
+{% endblock %}
