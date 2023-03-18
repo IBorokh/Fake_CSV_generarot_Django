@@ -1,10 +1,8 @@
-import csv
 from random import randint
 
 from django.core.files.base import ContentFile
-from django.shortcuts import render, redirect, get_object_or_404
 from django.http import JsonResponse, HttpResponse
-from django.urls import reverse_lazy
+from django.shortcuts import render, get_object_or_404
 from django.views import View
 from faker import Faker
 
@@ -63,9 +61,12 @@ class GenerationManageView(View):
                 if isinstance(column_type, list) and column_type[0] == 'integer':
                     row.append(randint(column_type[1], column_type[2]))
                 elif isinstance(column_type, list) and column_type[0] == 'text':
-                    text = fake.text(max_nb_chars=column_type[2])
-                    while len(text) < column_type[1]:
+                    if column_type[2] >= 5:
                         text = fake.text(max_nb_chars=column_type[2])
+                        while len(text) < column_type[1]:
+                            text = fake.text(max_nb_chars=column_type[2])
+                    else:
+                        text = fake.pystr(min_chars=column_type[1], max_chars=column_type[2])
                     row.append(text)
                 elif column_type == 'full_name':
                     row.append(fake.name())

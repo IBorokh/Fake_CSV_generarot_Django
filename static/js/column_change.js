@@ -7,6 +7,7 @@ $(document).ready(function() {
       $(this).closest('.formset-container').find('[id$="-extra_data1"]').hide();
       $(this).closest('.formset-container').find('[id$="-extra_data2"]').hide();
     }
+
   });
   $(document).on('change', '[id$="-data_type"]', function() {
     if (this.value === 'integer' || this.value === 'text') {
